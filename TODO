@@ -1,0 +1,41 @@
+add bulk transaction entry
+start input at day
+add automatic transaction generation based off of certain info
+add ability to clear all transactions, and categories, and transactees (alt+f)
+add toggle key to switch report between income and expenses
+add quick-menu to choose what on-screen documentation to show (alt+f6)
+remove input clearing routines
+add filename completion using file name history list, add other tab/space completion
+add option to use 80x25 mode
+add option to select multiple transactions and add their values together
+add toggle key to show/hide transactions that have already been verified and ability to choose default
+in reconciliation mode, they enter net amount of transaction and any matching transactions are displayed, or they can just have every non-verified trans displayed one at a time
+add ability to leave transaction out of certain totals
+quick flag marking on transaction screen using single keys and displaying what status the flag is for that transaction after key pressed
+let user modify defaults depending on payment/income
+skip "Gross Income", if net amount is positive, then jump to gross income when
+  enter is pressed, then jump to percent to tithing when enter is pressed
+auto-entry of "Percent to tithing", default 10, skipped when enter pressed in
+  memo, if net amount is not postive, set to 0 and update screen
+add 'reconciliation' mode
+fix writing to pfa.dat for filehist in file.c and chk misc.c and fix options.c
+add prevention of writing to file when data not modified
+optimize file handling
+add "experiment" mode where no damage can be done
+
+checksum using ROR,ROL
+show trans, dc, and categ counts after loading
+file merging:
+	add MERGED flag for transactions, used when transactions are, hide them
+          add ability to show hidden transactions anyway
+	to sync seperate files and should be ignored when files are merged
+	add `psuedo-allocation' flag, when set and `bank verified' flag not set
+	include income transaction when splitting file for needed amount, when
+          `psudeo-allocation' flag set and `bank verified' flag set, do not include
+	   income transaction
+	when splitting file, generate transaction for bank verified amount, a trans
+		for outstanding amount that is not marked `psuedo-allocation', and the
+		allocation transactions if needed
+
+search for `todo's
+update list of PFA's features

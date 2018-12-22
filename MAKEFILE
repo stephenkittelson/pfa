@@ -1,0 +1,194 @@
+# makefile for PFA by Stephen Kittelson 2000
+
+ifndef CMDLN
+
+# platform
+
+#LINUX=1
+DOS=1
+
+# misc options
+
+#GDB=1
+DEBUG=1
+BETA=1
+#RI=1
+
+# version number
+
+VSTR = 2.3
+
+# features
+
+F_CL_TITHCHK=1
+
+endif #CMDLN
+
+ifdef BETA
+VSTR := $(VSTR)b$(BETA)
+endif
+
+ifdef ALLFEATURES
+F_CL_TITHCHK=1
+endif
+
+LIBDIR = ../../lib/
+OBJDIR = obj/
+BAKDIR = backup
+ZIPDIR = zip/
+
+# no need for changes beyond this point
+
+.PHONY: clean_allall clean_allmod clean_partall clean_partmod clean_help \
+	depend backup zip self_extracting release printmod
+
+VSTR_FN = $(subst .,,$(VSTR))
+
+LFLAGS = -s
+CFLAGS = -Wall -O2
+DEFS = -DVSTR=\"$(VSTR)\" -DLIBDIR=\"$(LIBDIR)\"
+LIBS = -lmyalleg -lemu
+
+ifndef VSTR
+$(error ERROR: VSTR not defined)
+endif
+
+ifdef DOS
+	DEFS += -DDOS
+	EXE = .exe
+	DISP = type
+	SLASH = \\
+else
+ifdef LINUX
+	DEFS += -DLINUX
+	EXE = 
+	DISP = cat
+	SLASH = /
+else
+$(error ERROR: No platform defined)
+endif
+endif
+
+ifdef GDB
+	LFLAGS = 
+	CFLAGS += -ggdb
+	MOD = g
+endif
+
+ifdef DEBUG
+	DEFS += -DDEBUG
+	MOD := $(MOD)d
+ifdef BETA
+	DEFS += -DBETA
+	MOD := $(MOD)b
+endif
+ifdef RI
+	DEFS += -DRANDOM_INPUT
+	MOD := $(MOD)r
+endif
+else
+ifdef BETA
+$(error ERROR: BETA cannot be defined without DEBUG)
+endif
+ifdef RI
+$(error ERROR: RI cannot be defined without DEBUG)
+endif
+endif
+
+ifdef F_CL_TITHCHK
+	DEFS += -DF_CL_TITHCHK
+endif
+
+ifndef MOD
+MOD = release
+endif
+
+ifdef DEBUG
+	OBJFILES := $(addprefix $(OBJDIR)$(MOD)/,$(patsubst %.c,%.o,$(wildcard *.c))) $(OBJDIR)actsig.o $(OBJDIR)std.o
+else
+	OBJFILES := $(addprefix $(OBJDIR)$(MOD)/,$(patsubst %.c,%.o,$(wildcard *.c))) $(OBJDIR)actsig.o
+endif
+
+$(MOD)pfa$(EXE): $(OBJDIR)$(MOD) $(OBJFILES) #helpdat.c
+	gcc $(LFLAGS) -o $(MOD)pfa$(EXE) $(OBJFILES) $(LIBS)
+
+$(OBJDIR)$(MOD):
+	mkdir $(OBJDIR)$(MOD)
+
+$(OBJDIR)$(MOD)/%.o: %.c
+	gcc $(CFLAGS) $(DEFS) -o $@ -c $<
+
+include $(LIBDIR)makefile.lib
+
+makehelp.exe : makehelp/makehelp.c
+	gcc -Wall -O2 -o makehelp.exe makehelp/makehelp.c
+
+helpdat.c : help makehelp.exe
+	makehelp help helpdat.c
+
+help :
+	touch -m --reference=help.c
+
+clean_allall:
+	rm -f $(OBJDIR)*/makefile.dep $(OBJDIR)*/*.o *pfa$(EXE)
+
+clean_allmod:
+	rm -f $(OBJDIR)$(MOD)/makefile.dep $(OBJDIR)$(MOD)/*.o $(MOD)pfa$(EXE)
+
+clean_partall:
+	rm -f $(addprefix $(OBJDIR)*/,tl.o cl.o dcl.o file.o main.o misc.o options.o) \
+		*pfa$(EXE)
+
+clean_partmod:
+	rm -f $(addprefix $(OBJDIR)$(MOD)/,tl.o cl.o dcl.o file.o main.o misc.o options.o) \
+		$(MOD)pfa$(EXE)
+
+clean_help :
+	rm -f helpdat.*
+
+depend:
+	rm -f $(OBJDIR)$(MOD)/makefile.dep
+	$(MAKE) $(OBJDIR)$(MOD)/makefile.dep
+
+$(OBJDIR)$(MOD)/makefile.dep: $(OBJDIR)$(MOD)
+	gcc $(DEFS) -MM $(wildcard *.c) > _depend.tmp
+	sed -e "s/^\([a-zA-Z0-9_]*\.o:\)/\$$(OBJDIR)$$(MOD)\/\1/" _depend.tmp > $(OBJDIR)$(MOD)/makefile.dep
+	rm _depend.tmp
+
+include $(OBJDIR)$(MOD)/makefile.dep
+
+backup :
+	rm $(BAKDIR)/*
+	cp -p *.c $(BAKDIR) > $(BAKDIR)$(SLASH)baktime
+	cp -p *.h $(BAKDIR) >> $(BAKDIR)$(SLASH)baktime
+
+self_extracting:
+	type README.ALL1.TXT >  README.TXT
+	type README.SE.TXT   >> README.TXT
+	type README.ALL2.TXT >> README.TXT
+	cp -p releasepfa.exe $(ZIPDIR)tozip/pfa/pfa.exe
+	cp -p README.TXT $(ZIPDIR)tozip/pfa/README.TXT
+	cp -p README.TXT $(ZIPDIR)README.TXT
+	wzzip -rp $(ZIPDIR)pfa$(VSTR_FN)_se.zip $(ZIPDIR)tozip
+	wzsepe32 $(ZIPDIR)pfa$(VSTR_FN)_se.zip
+	pause
+	rm $(ZIPDIR)pfa$(VSTR_FN)_se.zip README.TXT
+
+zip:
+	$(DISP) README.ALL1.TXT >  README.TXT
+	$(DISP) README.ZIP.TXT  >> README.TXT
+	$(DISP) README.ALL2.TXT >> README.TXT
+	cp -p releasepfa.exe pfa.exe
+ifdef DOS
+	wzzip $(ZIPDIR)pfa$(VSTR_FN).zip pfa.exe readme.txt $(ZIPDIR)tozip/pfa/pfa.pif
+else
+	man gzip
+	man bzip
+endif
+	rm pfa.exe README.TXT
+
+release:
+	$(MAKE) -r clean_allmod default zip self_extracting
+
+printmod:
+	@echo $(MOD)pfa$(EXE)

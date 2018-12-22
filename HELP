@@ -1,0 +1,203 @@
+HELP
+
+If you haven't already, PLEASE PAY THE REQUIRED PRICE FOR THIS PROGRAM ($10) TO
+THE PROGRAMMER (Stephen Kittelson) See section 10 for payment information.
+
+----------------------------------------
+
+Contents:
+
+ 1.Using help
+ 2.General tips
+ 3.General keyboard mapping
+ 4.Key mappings specific to the different listings
+ 5.Editing a item
+ 6.Modifying the category/transactee in a transaction
+ 7.Modifying the flags
+ 8.Using the options screen
+ 9.Searching
+ 10.Command line options
+ 11.Contacting the programmer
+ 12.About PFA
+
+----------------------------------------
+
+1.Using help
+
+  Keys available:
+
+   Pgup: scroll the screen up a page
+   Pgdn: scroll the screen down a page
+    Esc: exit help and return to the transaction listing
+
+2.General Tips
+
+   EXPERIMENT!!! (In order to not mess any of your data up, either don't write 
+      the wrong data to your file with the right data, or make a backup copy of
+      your data file first)
+   When you write your data to a file on your storage device (commonly known 
+      as 'C:' drive or hard drive), it will not be lost when you turn off your 
+      computer.
+   When you release (or free) your data from memory (commonly known as 'RAM' 
+      or 'Primary memory'), it is lost forever (unless, of course, you wrote 
+      it to your storage device).
+   When you turn off your computer, your data in memory is lost (unless, of 
+      course, you wrote it to your storage device)
+   PFA will not let you change input locations until there is a valid value at
+      the current input location, unless you press ESC. Whether the value is 
+      valid or not, by pressing ESC, you cancel all the changes made to that
+      item.
+   When recording payment of tithing, the category has to be 'Tithing' in order
+      to deduct it from the 'tithing owed' total.
+   Enter expenses as negative values.
+   When someone pays you back, specify them as the 'transactee'. Since the 
+      value is positive, it will be deducted from their total. 
+   The point-of-view of the value next to a transactee on the transactee screen
+      and the `Debt balance' total is: "How much money have I given them/it?"
+
+3.General keyboard mapping
+
+   [Alt +] Up/Down arrows: move the selection one
+                           Alt + up/down arrows:
+                              move the selection ten
+             [Alt +] Home: move the selection to the item on the top of the 
+                            screen
+                           Alt + Home:
+                            move the selection to the first item in the whole 
+                            list
+              [Alt +] End: move the selection to the item on the bottom of the 
+                            screen 
+                           Alt + End:
+                            move the selction to the last item in the whole 
+                            list
+                Pgup/Pgdn: move the selection up/down one page/screen
+                        L: load a data file into memory, releasing the current 
+                           data
+                        W: write the data in memory to a file on the disk
+                        F: free the data in memory WITHOUT writing the data to 
+                           the file on the disk. Depending on what screen you 
+                           are on, it will release that data. For instance, if 
+                           you are on the transaction screen, only the 
+                           transactions will be released. The transactees and 
+                           categories will not be released.
+                        C: invoke the calculator
+                        T: display the totals
+                      Del: remove the selected item from the list
+                      Ins: insert a new item above the selected item
+                      Esc: free all the data from memory and exit PFA
+                    Enter: edit the selected item
+                       F1: invoke help (this screen)
+                       F2: edit the program options (colors,tithing 
+                           method,etc.)
+                       F3: edit the category list
+                       F4: edit the transactee list
+                       F5: edit the transaction list
+                       F6: display the tutorial instructions at the bottom of
+                           the screen
+
+4.Key mapping for the ...
+
+  Transaction listing
+
+    P: send the transaction data to the printer
+    S: search the memos of the transactions (case 
+        sensitive)
+     when you are searching, if you press...
+      Alt + ...
+        F: search the flags. (Deposited, bank verified,...)
+                 *: wildcard
+                 X: set
+          (empty) : not set
+        C: search the categories
+        T: search the transactees
+
+  Category listing
+  
+    Space bar: toggle the inclusion of the selected item in the percentage 
+               report
+
+5.Editing a item
+
+                          Esc: cancels the edit
+                      Alt + Q: accepts the edit
+   Alt + a highlighted letter: move to that input location
+                        Enter: move to the next input location. If there is 
+                               only 1 input location, then it acts like 'Alt+Q'
+
+6.Modifying the category/transactee in a transaction
+
+  You can type the name of the item you want until it is displayed. The search 
+    is case sensitive.
+  Up/Down arrows: change the item
+
+7.Modifying the flags
+
+   Space bar: change the value of the flag at the cursor's location
+
+8.Using the options screen
+
+    Alt + T: goto the tithing input location
+    Alt + Q: keep changes, write them to pfa.dat, and return to transaction
+             listing
+        Esc: do NOT keep changes and return to transaction listing
+      Enter: move to the next input location
+
+9.Searching
+
+   Type in the pattern to search for. It is case sensitive.
+
+      Alt + F: search for transactions with a certain pattern of flags ('*' is a
+               wild card)
+      Alt + C: search for transactions with a certain category
+      Alt + T: search for transactions with a certain transactee
+
+   (Keys for all types of searches)
+
+     Up arrow: move to the previous match
+   Down arrow: move to the next match 
+          Esc: end the search
+
+10.Command line options
+
+  If you want to know if you owe any tithing or not, and you don't want to 
+  have to check manually, you can setup a script to check for you! To have PFA 
+  let the script know if you owe tithing and your PFA data file is 'bob2000', 
+  just enter the command line 'pfa -t bob2000'. If you owe tithing, PFA will 
+  return 1, otherwise, it will return 0.
+  
+11.Contacting the programmer
+
+   You can contact me at my email address: stephen.kittelson@juno.com
+   
+   Feel free to send me: complaints about PFA, suggestions, questions
+
+12.About PFA
+
+   PFA is shareware.
+   
+   You can copy PFA and give it to as many people as you would like. Be sure 
+   you have the current version (which is at the top of each screen). If you 
+   would like to know if a new version comes out, just email me with 
+   'subscribe-pfa' in the subject line. If you would like me to email the new 
+   versions to you, just email me with 'subscribe-pfa-send' in the subject 
+   line. If you would like to have the current version emailed to you, email 
+   me with 'send-pfa' in the subject line.
+
+   You can send a check or money order for $10 to:
+#ifndef BETA
+      Stephen Kittelson
+      P.O. Box 8505
+      Mesa, AZ USA 85214-8505
+#else
+      (this is a BETA version. if you did not directly receive this copy of PFA
+       from Stephen Kittelson himself, delete this program! It is NOT the 
+       offical release and may have defects, problems, and unclear 
+       instructions!)
+#endif
+
+   Please be honest! If you have already paid $10 and this is an upgrade,
+   please pay $5, unless the upgrade merely fixed a problem, then it is free.
+
+   Versions of PFA that are upgrades to the version you have increment the 
+   first number before the '.' on the version number, problem fixes increment 
+   the number after the '.'.

@@ -1,0 +1,33 @@
+# makefile for the stress testing program for PFA, by Stephen Kittelson
+
+DOS=1
+#LINUX=1
+
+LIBDIR = ../../lib/
+
+.PHONY: clean
+
+OBJS= $(patsubst %.c,%.o,$(wildcard *.c)) actsig.o
+
+CFLAGS = -DLIBDIR=\"$(LIBDIR)\" -Wall -O2
+LFLAGS=-s
+
+ifdef DOS
+CFLAGS += -DDOS
+endif
+
+test.exe: $(OBJS)
+	gcc $(LFLAGS) -o test.exe $(OBJS)
+
+%.o: %.c
+	gcc $(CFLAGS) -o $@ -c $<
+
+include $(LIBDIR)makefile.lib
+
+makefile.dep:
+	gcc -DLIBDIR=\"$(LIBDIR)\" -MM $(wildcard *.c) > makefile.dep
+
+include makefile.dep
+
+clean:
+	rm -f test.exe

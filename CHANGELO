@@ -1,0 +1,5 @@
+2.2 to 2.3:
+	fixed POV from user to transactee to a logical POV: "How much have I given them/it?" or "What is my balance with them/it?"
+	changed "Net value" on transaction editing screen to "Net amount" at the advice of Bishop Ellsworth.
+	changed the calculation of the total, used to calculate the percentage of each category of the total expense, from the expenses of each transaction to the value of each category
+	added total "Non-verified bank balance"

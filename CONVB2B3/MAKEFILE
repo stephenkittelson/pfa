@@ -1,0 +1,37 @@
+#makefile for conv.exe by Stephen Kittelson 2000-09-07 251
+
+#DEBUG = 1
+#GDB = 1
+
+LIBDIR = ../../lib/
+OBJDIR = obj/
+
+ifdef DEBUG
+ifdef GDB
+LFLAGS =
+CFLAGS = -ggdb -DDEBUG -Wall -O2
+else
+LFLAGS = -s
+CFLAGS = -DDEBUG -Wall -O2
+endif
+else
+LFLAGS = -s
+CFLAGS = -Wall -O2
+endif
+
+OBJS = $(OBJDIR)main.o $(OBJDIR)actsig.o
+ifdef DEBUG
+OBJS += $(OBJDIR)std.o
+endif
+
+conv.exe :  $(OBJS)
+	gcc $(LFLAGS) -o conv.exe $(OBJS)
+
+$(OBJDIR)main.o: main.c $(LIBDIR)std.h $(LIBDIR)actsig.h
+	gcc $(CFLAGS) -o $(OBJDIR)main.o -c main.c
+
+$(OBJDIR)%.o: $(LIBDIR)%.c $(LIBDIR)%.h
+	gcc $(CFLAGS) -o $@ -c $<
+
+clean:
+	rm -f $(OBJDIR)*.o conv.exe
